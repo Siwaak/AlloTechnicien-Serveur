@@ -19,6 +19,8 @@ public class ClientController  extends ExceptionHandlerClass{
 
 	@Autowired
 	private ClientService clientService;
+	
+	
 	/***
 	 * Liste des clients 
 	 * @return
@@ -29,7 +31,7 @@ public class ClientController  extends ExceptionHandlerClass{
 	}
 	
 	/**
-	 * Le client qui dont l'id est passé en argument
+	 * Le client dont l'id est passé en argument
 	 * @param id
 	 * @return
 	 * @throws NotFoundException 
@@ -44,9 +46,10 @@ public class ClientController  extends ExceptionHandlerClass{
 	 * Le donné envoyés à travers la requète seront utilisées pour créer l'objet client
 	 * @param client
 	 * @param clientId
+	 * @throws NotFoundException 
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/utilisateurs/{utilisateurId}/ajouterClient")
-	public void addClient(@RequestBody Client client,@PathVariable("utilisateurId") Long utilisateurId) {
+	public void addClient(@RequestBody Client client,@PathVariable("utilisateurId") Long utilisateurId) throws NotFoundException {
 		clientService.addClient(client,utilisateurId);
 	}
 	
@@ -60,7 +63,7 @@ public class ClientController  extends ExceptionHandlerClass{
 	@RequestMapping(method=RequestMethod.PUT, value="/clients/{id}")
 	public void updateClient(@RequestBody Client client,@PathVariable("id") Long id) {
 		client.setId(id);
-		clientService.updateClient(id,client);
+		clientService.updateClient(client);
 	}
 	
 	/**

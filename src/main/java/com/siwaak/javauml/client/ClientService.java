@@ -43,22 +43,28 @@ public class ClientService {
 		
 	}
 
-	public void addClient(Client client,Long utilisateurId) {
+	public void addClient(Client client,Long utilisateurId) throws NotFoundException {
 		//techniciens.add(topic);
 		Utilisateur utilisateur = utilisateurRepository.findById(utilisateurId).orElse(null);
+		
+		
+		if (utilisateur == null ) {
+			throw new NotFoundException("L'utilisateur d'identifiant " + utilisateurId +" n'a pas été trouvée");
+			
+		}
+		
 		client.setUtilisateur(utilisateur);
 		clientRepository.save(client);
 		
 	}
 
-	public void updateClient(Long id, Client client) {
+	public void updateClient(Client client) {
 		
 		clientRepository.save(client);
 		
 	}
 
 	public void deleteClient(Long id) {
-		//techniciens.removeIf(t -> t.getId().equals(id));
 		
 		clientRepository.deleteById(id);
 		
