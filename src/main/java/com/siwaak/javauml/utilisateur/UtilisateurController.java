@@ -12,28 +12,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.siwaak.javauml.exceptions.ExceptionHandlerClass;
 
 @RestController
-public class UtilisateurController {
+public class UtilisateurController extends ExceptionHandlerClass{
 
 	@Autowired
 	private UtilisateurService utilisateurService;
-	private UtilisateurRepository utilisateurRepository;
 	
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
     public UtilisateurController(UtilisateurRepository utilisateurRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-			this.utilisateurRepository = utilisateurRepository;
+			
 			this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
     
     @PostMapping("/utilisateurs/inscription")
-    public void inscription(@RequestBody Utilisateur user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        utilisateurService.ajouter(user);
+    public void inscription(@RequestBody Utilisateur utilisateur) {
+    	utilisateur.setPassword(bCryptPasswordEncoder.encode(utilisateur.getPassword()));
+        utilisateurService.ajouter(utilisateur);
     }
     
+	
 	@RequestMapping("/utilisateurs")
 	public List<Utilisateur> getAllUtilisateurs() {
 		return utilisateurService.getAllUtilisateurs();

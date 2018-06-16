@@ -16,6 +16,8 @@ public class Client {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;	
 	
+	private String adresse;
+	
 	/**
 	 * Utilisateur correspondant à ce client.
 	 * Un client correspond à un utilisateur et vice versa
@@ -28,6 +30,24 @@ public class Client {
 		super();
 	}
 	
+
+	public Client(String adresse) {
+		super();
+		this.adresse = adresse;
+	}
+
+
+	public String getAdresse() {
+		return adresse;
+	}
+
+
+
+	public void setAdresse(String adresse) {
+		this.adresse = adresse;
+	}
+
+
 
 	public long getId() {
 		return id;

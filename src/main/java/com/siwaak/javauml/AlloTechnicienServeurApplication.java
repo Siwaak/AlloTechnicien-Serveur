@@ -6,14 +6,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
-public class AlloTechnicienApplication {
+public class AlloTechnicienServeurApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AlloTechnicienApplication.class, args);
+		SpringApplication.run(AlloTechnicienServeurApplication.class, args);
 	}
 	
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    
 }

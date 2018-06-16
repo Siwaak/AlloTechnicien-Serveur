@@ -6,8 +6,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.siwaak.javauml.client.Client;
+import com.siwaak.javauml.client.ClientRepository;
 import com.siwaak.javauml.utilisateur.Utilisateur;
 import com.siwaak.javauml.utilisateur.UtilisateurRepository;
+
+import javassist.NotFoundException;
 
 @Service
 public class ClientService {
@@ -17,7 +21,7 @@ public class ClientService {
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
 	
-	public List<Client> getAllUtilisateurs() {
+	public List<Client> getAllClients() {
 	
 		List<Client> clients = new ArrayList<>();
 		
@@ -26,13 +30,20 @@ public class ClientService {
 		return clients;
 	}
 	
-	public Client getUtilisateur(Long id) {
+	public Client getClient(Long id) throws NotFoundException {
 		//return techniciens.stream().filter(t -> t.getId().equals(id)).findFirst().get();
-		return clientRepository.findById(id).orElse(null);
+		
+		Client client = clientRepository.findById(id).orElse(null);
+		
+		if (client == null ) {
+			throw new NotFoundException("Client non trouvé");
+			
+		}
+		return client;
 		
 	}
 
-	public void addUtilisateur(Client client,Long utilisateurId) {
+	public void addClient(Client client,Long utilisateurId) {
 		//techniciens.add(topic);
 		Utilisateur utilisateur = utilisateurRepository.findById(utilisateurId).orElse(null);
 		client.setUtilisateur(utilisateur);
@@ -40,21 +51,13 @@ public class ClientService {
 		
 	}
 
-	public void updateUtilisateur(String id, Client client) {
-		/*for(int i = 0; i < techniciens.size(); i++) {
-			Client topic2 = techniciens.get(i);
-			if(topic2.getId().equals(id)) {
-				techniciens.set(i,topic);
-				return;
-				
-			}
-		}*/
+	public void updateClient(Long id, Client client) {
 		
 		clientRepository.save(client);
 		
 	}
 
-	public void deleteUtilisateur(Long id) {
+	public void deleteClient(Long id) {
 		//techniciens.removeIf(t -> t.getId().equals(id));
 		
 		clientRepository.deleteById(id);

@@ -1,19 +1,12 @@
 package com.siwaak.javauml.technicien;
 
 
-
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.siwaak.javauml.techniciendemande.TechnicienDemande;
 import com.siwaak.javauml.utilisateur.Utilisateur;
 
 @Entity
@@ -27,8 +20,8 @@ public class Technicien {
 	@OneToOne
 	private Utilisateur utilisateur;  
 	
-    @OneToMany(mappedBy="technicien", fetch = FetchType.EAGER)
-	private Set<TechnicienDemande> technicienDemandes = new HashSet<>();
+   // @OneToMany(mappedBy="technicien", fetch = FetchType.EAGER)
+	//private Set<TechnicienDemande> technicienDemandes = new HashSet<>();
 
 	
 	public Technicien() {
@@ -62,7 +55,7 @@ public class Technicien {
 		this.utilisateur = utilisateur;
 	}
 	
-	public void ajouterTechnicienDemande(TechnicienDemande technicienDemande) {
+	/*public void ajouterTechnicienDemande(TechnicienDemande technicienDemande) {
 		this.technicienDemandes.add(technicienDemande);
 	}
 
@@ -72,7 +65,7 @@ public class Technicien {
 
 	public void setTechnicienDemandes(Set<TechnicienDemande> technicienDemandes) {
 		this.technicienDemandes = technicienDemandes;
-	}
+	}*/
 	
 	
 	

@@ -4,14 +4,29 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Email;
+
 
 @Entity
+@Table(
+uniqueConstraints=
+    @UniqueConstraint(columnNames={"email"})
+)
 public class Utilisateur {
 
+	/**
+	 * Clé primaire de la classe, sa valeure est incrémentée automatiquement
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;	
-	private String login;
+	private long id;
+	/**
+	 * Identifiant de l'utilisateur pour l'authentification
+	 */
+	@Email
+	private String email;
 	private String password;
 	private String nom;
 	private String prenom;
@@ -22,9 +37,9 @@ public class Utilisateur {
 		super();
 	}	
 
-	public Utilisateur(String login, String password, String nom, String prenom, String tel) {
+	public Utilisateur(String email, String password, String nom, String prenom, String tel) {
 		super();
-		this.login = login;
+		this.email = email;
 		this.password = password;
 		this.nom = nom;
 		this.prenom = prenom;
@@ -43,13 +58,13 @@ public class Utilisateur {
 	}
 
 
-	public String getLogin() {
-		return login;
+	public String getEmail() {
+		return email;
 	}
 
 
-	public void setLogin(String login) {
-		this.login = login;
+	public void setEmail(String login) {
+		this.email = login;
 	}
 
 
@@ -61,8 +76,8 @@ public class Utilisateur {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-
+	
+	
 	public String getNom() {
 		return nom;
 	}
@@ -91,10 +106,5 @@ public class Utilisateur {
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	
-	
-	
-	
-	
 	
 }

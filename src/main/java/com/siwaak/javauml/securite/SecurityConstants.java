@@ -1,4 +1,4 @@
-package com.siwaak.javauml.security;
+package com.siwaak.javauml.securite;
 
 public class SecurityConstants {
 

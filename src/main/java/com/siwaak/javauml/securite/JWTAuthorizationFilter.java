@@ -1,4 +1,4 @@
-package com.siwaak.javauml.security;
+package com.siwaak.javauml.securite;
 
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,9 +11,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.siwaak.javauml.security.SecurityConstants.HEADER_STRING;
-import static com.siwaak.javauml.security.SecurityConstants.SECRET;
-import static com.siwaak.javauml.security.SecurityConstants.TOKEN_PREFIX;
+import static com.siwaak.javauml.securite.SecurityConstants.HEADER_STRING;
+import static com.siwaak.javauml.securite.SecurityConstants.SECRET;
+import static com.siwaak.javauml.securite.SecurityConstants.TOKEN_PREFIX;
 
 import java.io.IOException;
 import java.util.ArrayList;

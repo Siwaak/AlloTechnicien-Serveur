@@ -2,16 +2,20 @@ package com.siwaak.javauml.techniciendemande;
 
 
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.siwaak.javauml.exceptions.ExceptionHandlerClass;
+
 
 
 @RestController
-public class TechnicienDemandeController {
+public class TechnicienDemandeController extends ExceptionHandlerClass{
 
 	@Autowired
 	private TechnicienDemandeService technicienDemandeService;
@@ -57,6 +61,27 @@ public class TechnicienDemandeController {
 	@RequestMapping(method=RequestMethod.POST, value="choisirtechniciendemande/{technicienId}/{demandeId}")
 	public void choisirTechnicien(@PathVariable("technicienId") Long technicienId,@PathVariable("demandeId") Long demandeId) {
 		technicienDemandeService.choisirTechnicien(technicienId, demandeId);
+	}
+	
+	/**
+	 * Liste des demandes auquelles a postulé un technicien
+	 * @param technicienId
+	 * @return
+	 */
+	@RequestMapping(value="techniciens/{technicienId}/demandes")
+	public Set<TechnicienDemande> demandesDunTechnicien(@PathVariable("technicienId") Long technicienId){
+		return technicienDemandeService.demandesDunTechnicien(technicienId);
+	}
+	
+	
+	/**
+	 * Liste des techniciens qui ont postulés pour une demande
+	 * @param technicienId
+	 * @return
+	 */
+	@RequestMapping(value="/demandes/{demandeId}/techniciens")
+	public Set<TechnicienDemande> techniciensPourDemandes(@PathVariable("demandeId") Long demandeId){
+		return technicienDemandeService.techniciensPourDemandes(demandeId);
 	}
 	
 

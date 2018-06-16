@@ -17,7 +17,7 @@ public class DomaineService {
 	@Autowired
 	private TechnicienRepository technicienRepository;
 	
-	public List<Domaine> getAllUtilisateurs() {
+	public List<Domaine> getAllDomaines() {
 	
 		List<Domaine> domaines = new ArrayList<>();
 		
@@ -26,34 +26,27 @@ public class DomaineService {
 		return domaines;
 	}
 	
-	public Domaine getUtilisateur(Long id) {
+	public Domaine getDomaine(Long id) {
 		//return techniciens.stream().filter(t -> t.getId().equals(id)).findFirst().get();
 		return domaineRepository.findById(id).orElse(null);
 		
 	}
 
-	public void addUtilisateur(Domaine domaine) {
+	public void addDomaine(Domaine domaine) {
 		//techniciens.add(topic);
 		
 		domaineRepository.save(domaine);
 		
 	}
 
-	public void updateUtilisateur(String id, Domaine domaine) {
-		/*for(int i = 0; i < techniciens.size(); i++) {
-			Client topic2 = techniciens.get(i);
-			if(topic2.getId().equals(id)) {
-				techniciens.set(i,topic);
-				return;
-				
-			}
-		}*/
+	public void updateDomaine(Long id, Domaine domaine) {
+
 		
 		domaineRepository.save(domaine);
 		
 	}
 
-	public void deleteUtilisateur(Long id) {
+	public void deleteDomaine(Long id) {
 		//techniciens.removeIf(t -> t.getId().equals(id));
 		
 		domaineRepository.deleteById(id);

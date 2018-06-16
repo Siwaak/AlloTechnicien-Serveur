@@ -2,7 +2,7 @@ package com.siwaak.javauml.technicien;
 
 //import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.siwaak.javauml.techniciendemande.TechnicienDemande;
+import com.siwaak.javauml.exceptions.ExceptionHandlerClass;
+
 
 @RestController
-public class TechnicienController {
+public class TechnicienController extends ExceptionHandlerClass{
 
 	@Autowired
 	private TechnicienService technicienService;
@@ -34,15 +35,6 @@ public class TechnicienController {
 		return technicienService.getTechnicien(id);
 	}
 	
-	/***
-	 * Liste des candidatures faites par un technicien
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping("/techniciens/{id}/demandes")
-	public Set<TechnicienDemande> getTechnicienDemandes(@PathVariable("id") Long id) {
-		return technicienService.getTechnicienDemandes(id);
-	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/utilisateurs/{utilisateurId}/techniciens")
 	public void addTechnicien(@RequestBody Technicien technicien,@PathVariable("utilisateurId") Long utilisateurId) {

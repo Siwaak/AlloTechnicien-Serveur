@@ -2,6 +2,8 @@ package com.siwaak.javauml.techniciendemande;
 
 
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,14 +30,14 @@ public class TechnicienDemandeService {
 		Demande demande = demandeRepository.findById(demandeId).orElse(null);
 		
 		TechnicienDemande technicienDemande = new TechnicienDemande(demande,technicien);
-		technicien.ajouterTechnicienDemande(technicienDemande);
+		/*technicien.ajouterTechnicienDemande(technicienDemande);
 		
 		technicien.ajouterTechnicienDemande(technicienDemande);
 		
 		demande.ajouterTechnicienDemande(technicienDemande);
 		
 		demandeRepository.save(demande);
-		technicienRepository.save(technicien);
+		technicienRepository.save(technicien);*/
 		
 		technicienDemandeRepository.save(technicienDemande);
 	}
@@ -59,6 +61,16 @@ public class TechnicienDemandeService {
 		technicienDemande.setChoisi(true);
 		
 		technicienDemandeRepository.save(technicienDemande);
+	}
+
+	public Set<TechnicienDemande> demandesDunTechnicien(Long technicienId) {
+		// TODO Auto-generated method stub
+		return technicienDemandeRepository.findAllByTechnicienId(technicienId);
+	}
+
+	public Set<TechnicienDemande> techniciensPourDemandes(Long demandeId) {
+		// TODO Auto-generated method stub
+		return technicienDemandeRepository.findAllByDemandeId(demandeId);
 	}
 
 

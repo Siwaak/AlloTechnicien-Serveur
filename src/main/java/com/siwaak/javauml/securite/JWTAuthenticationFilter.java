@@ -1,7 +1,8 @@
-package com.siwaak.javauml.security;
+package com.siwaak.javauml.securite;
 
-import com.siwaak.javauml.utilisateur.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.siwaak.javauml.utilisateur.*;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,10 +17,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.siwaak.javauml.security.SecurityConstants.EXPIRATION_TIME;
-import static com.siwaak.javauml.security.SecurityConstants.HEADER_STRING;
-import static com.siwaak.javauml.security.SecurityConstants.SECRET;
-import static com.siwaak.javauml.security.SecurityConstants.TOKEN_PREFIX;
+import static com.siwaak.javauml.securite.SecurityConstants.EXPIRATION_TIME;
+import static com.siwaak.javauml.securite.SecurityConstants.HEADER_STRING;
+import static com.siwaak.javauml.securite.SecurityConstants.SECRET;
+import static com.siwaak.javauml.securite.SecurityConstants.TOKEN_PREFIX;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getLogin(),
+                            creds.getEmail(),
                             creds.getPassword(),
                             new ArrayList<>())
             );

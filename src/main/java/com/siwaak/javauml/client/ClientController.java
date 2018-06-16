@@ -1,7 +1,7 @@
 package com.siwaak.javauml.client;
 
-//import java.util.Arrays;
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.siwaak.javauml.exceptions.ExceptionHandlerClass;
+
+import javassist.NotFoundException;
+
 @RestController
-public class ClientController {
+public class ClientController  extends ExceptionHandlerClass{
 
 	@Autowired
 	private ClientService clientService;
@@ -20,29 +24,30 @@ public class ClientController {
 	 * @return
 	 */
 	@RequestMapping("/clients")
-	public List<Client> getAllUtilisateurs() {
-		return clientService.getAllUtilisateurs();
+	public List<Client> getAllClients() {
+		return clientService.getAllClients();
 	}
 	
 	/**
 	 * Le client qui dont l'id est passé en argument
 	 * @param id
 	 * @return
+	 * @throws NotFoundException 
 	 */
 	@RequestMapping("/clients/{id}")
-	public Client getUtilisateur(@PathVariable("id") Long id) {
-		return clientService.getUtilisateur(id);
+	public Client getClient(@PathVariable("id") Long id) throws NotFoundException {
+		return clientService.getClient(id);
 	}
 	
 	/**
-	 * Créer le client associé à l'utilisateur dont l'id est passé en arguement.
+	 * Créer le client associé à l'client dont l'id est passé en arguement.
 	 * Le donné envoyés à travers la requète seront utilisées pour créer l'objet client
 	 * @param client
-	 * @param utilisateurId
+	 * @param clientId
 	 */
-	@RequestMapping(method=RequestMethod.POST, value="/utilisateurs/{utilisateurId}/clients")
-	public void addUtilisateur(@RequestBody Client client,@PathVariable("utilisateurId") Long utilisateurId) {
-		clientService.addUtilisateur(client,utilisateurId);
+	@RequestMapping(method=RequestMethod.POST, value="/utilisateurs/{utilisateurId}/ajouterClient")
+	public void addClient(@RequestBody Client client,@PathVariable("utilisateurId") Long utilisateurId) {
+		clientService.addClient(client,utilisateurId);
 	}
 	
 	
@@ -53,8 +58,9 @@ public class ClientController {
 	 * @param id
 	 */
 	@RequestMapping(method=RequestMethod.PUT, value="/clients/{id}")
-	public void updateUtilisateur(@RequestBody Client client,@PathVariable("id") String id) {
-		clientService.updateUtilisateur(id,client);
+	public void updateClient(@RequestBody Client client,@PathVariable("id") Long id) {
+		client.setId(id);
+		clientService.updateClient(id,client);
 	}
 	
 	/**
@@ -62,9 +68,12 @@ public class ClientController {
 	 * @param id
 	 */
 	@RequestMapping(method=RequestMethod.DELETE, value="/clients/{id}")
-	public void deleteUtilisateur(@PathVariable("id") Long id) {
-		clientService.deleteUtilisateur(id);
+	public void deleteClient(@PathVariable("id") Long id) {
+		clientService.deleteClient(id);
 	}
+	
+
+	
 }
 
 

@@ -55,10 +55,10 @@ public class UtilisateurService {
 		
 	}
 
-	public void ajouter(Utilisateur utilisateur) {
+	public void ajouter(Utilisateur user) {
 		// TODO Auto-generated method stub
 		
-		utilisateurRepository.save(utilisateur);
+		utilisateurRepository.save(user);
 		
 	}
 }

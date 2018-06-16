@@ -8,7 +8,10 @@ import com.siwaak.javauml.demande.Demande;
 import com.siwaak.javauml.technicien.Technicien;
 
 @Entity
-@Table(name = "techniciens_demandes")
+@Table(name = "techniciens_demandes",
+	    uniqueConstraints=
+	        @UniqueConstraint(columnNames={"demande_id", "technicien_id"})
+	)
 public class TechnicienDemande {
 	
 		@Id

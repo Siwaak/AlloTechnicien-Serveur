@@ -1,7 +1,6 @@
 package com.siwaak.javauml.demande;
 
-import java.util.HashSet;
-import java.util.Set;
+
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,11 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import com.siwaak.javauml.client.Client;
 import com.siwaak.javauml.domaine.Domaine;
-import com.siwaak.javauml.techniciendemande.TechnicienDemande;
 
 
 @Entity
@@ -23,6 +20,10 @@ public class Demande {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
+	private String description;
+	
+	private String adresse;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "domaine_id")
@@ -31,18 +32,28 @@ public class Demande {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "client_id")
 	private Client client;
-	
-	
-    @OneToMany(mappedBy="demande", fetch = FetchType.EAGER)
-	private Set<TechnicienDemande> technicienDemandes = new HashSet<>();
-    
+
 		
 	
 	public Demande() {
 		super();
 	}
 
+	public Demande(String description, String adresse) {
+		super();
+		this.description = description;
+		this.adresse = adresse;
+	}
 	
+	public Demande(String description, String adresse, Domaine domaine, Client client) {
+		super();
+		this.description = description;
+		this.adresse = adresse;
+		this.domaine = domaine;
+		this.client = client;
+	}
+
+
 	public Demande(String domaine) {
 		super();
 		
@@ -56,6 +67,27 @@ public class Demande {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	
+
+	public String getDescription() {
+		return description;
+	}
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+	public String getAdresse() {
+		return adresse;
+	}
+
+
+	public void setAdresse(String adresse) {
+		this.adresse = adresse;
 	}
 
 
@@ -78,7 +110,7 @@ public class Demande {
 		this.client = client;
 	}
 	
-	public Set<TechnicienDemande> getTechnicienDemandes() {
+	/*public Set<TechnicienDemande> getTechnicienDemandes() {
 		return technicienDemandes;
 	}
 
@@ -88,6 +120,6 @@ public class Demande {
 	
 	public void ajouterTechnicienDemande(TechnicienDemande technicienDemande) {
 		this.technicienDemandes.add(technicienDemande);
-	}
+	}*/
 	
 }

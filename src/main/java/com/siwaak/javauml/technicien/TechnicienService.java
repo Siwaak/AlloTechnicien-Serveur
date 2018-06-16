@@ -2,12 +2,10 @@ package com.siwaak.javauml.technicien;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.siwaak.javauml.techniciendemande.TechnicienDemande;
 import com.siwaak.javauml.utilisateur.Utilisateur;
 import com.siwaak.javauml.utilisateur.UtilisateurRepository;
 
@@ -55,12 +53,5 @@ public class TechnicienService {
 		technicienRepository.deleteById(id);
 		
 	}
-
-	
-	public Set<TechnicienDemande> getTechnicienDemandes(Long technicienId){
-		Technicien technicien = technicienRepository.findById(technicienId).orElse(null);
-		
-		return technicien.getTechnicienDemandes();
-		}
 
 }
