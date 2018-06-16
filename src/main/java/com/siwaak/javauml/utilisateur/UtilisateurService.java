@@ -54,4 +54,11 @@ public class UtilisateurService {
 		utilisateurRepository.deleteById(id);
 		
 	}
+
+	public void ajouter(Utilisateur utilisateur) {
+		// TODO Auto-generated method stub
+		
+		utilisateurRepository.save(utilisateur);
+		
+	}
 }

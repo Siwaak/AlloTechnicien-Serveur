@@ -16,6 +16,10 @@ public class Client {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;	
 	
+	/**
+	 * Utilisateur correspondant à ce client.
+	 * Un client correspond à un utilisateur et vice versa
+	 */
 	@OneToOne
 	private Utilisateur utilisateur;
 	
