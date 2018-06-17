@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.siwaak.javauml.exceptions.ExceptionHandlerClass;
 
+import javassist.NotFoundException;
+
 @RestController
 public class UtilisateurController extends ExceptionHandlerClass{
 
@@ -28,9 +30,9 @@ public class UtilisateurController extends ExceptionHandlerClass{
 	}
     
     @PostMapping("/utilisateurs/inscription")
-    public void inscription(@RequestBody Utilisateur utilisateur) {
+    public Utilisateur inscription(@RequestBody Utilisateur utilisateur) {
     	utilisateur.setPassword(bCryptPasswordEncoder.encode(utilisateur.getPassword()));
-        utilisateurService.ajouter(utilisateur);
+        return utilisateurService.ajouter(utilisateur);
     }
     
 	
@@ -44,20 +46,27 @@ public class UtilisateurController extends ExceptionHandlerClass{
 		return utilisateurService.getUtilisateur(id);
 	}
 	
+	@RequestMapping("/utilisateurs/id}")
+	public Long getId(@PathVariable("email") String email) throws NotFoundException {
+		return utilisateurService.getId(email);
+	}
+	
 	@RequestMapping(method=RequestMethod.POST, value="/utilisateurs")
-	public void addUtilisateur(@RequestBody Utilisateur utilisateur) {
-		utilisateurService.addUtilisateur(utilisateur);
+	public Utilisateur addUtilisateur(@RequestBody Utilisateur utilisateur) {
+		return utilisateurService.addUtilisateur(utilisateur);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/utilisateurs/{id}")
-	public void updateUtilisateur(@RequestBody Utilisateur utilisateur,@PathVariable("id") long id) {
-		utilisateurService.updateUtilisateur(id,utilisateur);
+	public Utilisateur updateUtilisateur(@RequestBody Utilisateur utilisateur,@PathVariable("id") long id) {
+		return utilisateurService.updateUtilisateur(id,utilisateur);
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE, value="/utilisateurs/{id}")
 	public void deleteUtilisateur(@PathVariable("id") long id) {
 		utilisateurService.deleteUtilisateur(id);
 	}
+	
+	
 }
 
 

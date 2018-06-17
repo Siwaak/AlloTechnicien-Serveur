@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.siwaak.javauml.exceptions.ExceptionHandlerClass;
 
+import javassist.NotFoundException;
+
 
 @RestController
 public class TechnicienController extends ExceptionHandlerClass{
@@ -31,20 +33,20 @@ public class TechnicienController extends ExceptionHandlerClass{
 	}
 	
 	@RequestMapping("/techniciens/{id}")
-	public Technicien getTechnicien(@PathVariable("id") Long id) {
+	public Technicien getTechnicien(@PathVariable("id") Long id) throws NotFoundException {
 		return technicienService.getTechnicien(id);
 	}
 	
 	
 	@RequestMapping(method=RequestMethod.POST, value="/utilisateurs/{utilisateurId}/techniciens")
-	public void addTechnicien(@RequestBody Technicien technicien,@PathVariable("utilisateurId") Long utilisateurId) {
+	public Technicien addTechnicien(@RequestBody Technicien technicien,@PathVariable("utilisateurId") Long utilisateurId) throws NotFoundException {
 		
-		technicienService.addTechnicien(technicien,utilisateurId );
+		return technicienService.addTechnicien(technicien,utilisateurId );
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/techniciens/{id}")
-	public void updateTechnicien(@RequestBody Technicien technicien,@PathVariable("id") String id) {
-		technicienService.updateTechnicien(id,technicien);
+	public Technicien updateTechnicien(@RequestBody Technicien technicien,@PathVariable("id") Long id) throws NotFoundException {
+		return technicienService.updateTechnicien(id,technicien);
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE, value="/techniciens/{id}")

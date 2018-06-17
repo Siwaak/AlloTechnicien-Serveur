@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.siwaak.javauml.domaine.Domaine;
 import com.siwaak.javauml.exceptions.ExceptionHandlerClass;
+
+import javassist.NotFoundException;
+
 import com.siwaak.javauml.client.Client;
 @RestController
 public class DemandeController extends ExceptionHandlerClass{
@@ -33,9 +36,10 @@ public class DemandeController extends ExceptionHandlerClass{
 	 * Récupérer une demande
 	 * @param id
 	 * @return
+	 * @throws NotFoundException 
 	 */
 	@RequestMapping("/demandes/{id}")
-	public Demande getDemande(@PathVariable("id") Long id) {
+	public Demande getDemande(@PathVariable("id") Long id) throws NotFoundException {
 		return demandeService.getDemande(id);
 	}
 	
@@ -43,9 +47,10 @@ public class DemandeController extends ExceptionHandlerClass{
 	 * Récupérer le domande d'une demande
 	 * @param id
 	 * @return
+	 * @throws NotFoundException 
 	 */
 	@RequestMapping("/demandes/{id}/domaine")
-	public Domaine getDomaineDemande(@PathVariable("id") Long id) {
+	public Domaine getDomaineDemande(@PathVariable("id") Long id) throws NotFoundException {
 		return demandeService.getDomaineDemande(id);
 	}
 	
@@ -53,9 +58,10 @@ public class DemandeController extends ExceptionHandlerClass{
 	 * Récupérer le client d'une demande
 	 * @param id
 	 * @return
+	 * @throws NotFoundException 
 	 */
 	@RequestMapping("/demandes/{id}/client")
-	public Client getClientDemande(@PathVariable("id") Long id) {
+	public Client getClientDemande(@PathVariable("id") Long id) throws NotFoundException {
 		return demandeService.getClientDemande(id);
 	}
 	
@@ -65,21 +71,23 @@ public class DemandeController extends ExceptionHandlerClass{
 	 * @param demande
 	 * @param clientId
 	 * @param domaineId
+	 * @throws NotFoundException Une erreur 404 sera renvoyée si le client ou le domaine n'existe pas
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/demandes/ajout/{clientId}/{domaineId}")
-	public void addDemande(@RequestBody Demande demande,@PathVariable("clientId") Long clientId,@PathVariable("domaineId") Long domaineId) {
+	public Demande addDemande(@RequestBody Demande demande,@PathVariable("clientId") Long clientId,@PathVariable("domaineId") Long domaineId) throws NotFoundException {
 
-		demandeService.addDemande(demande,clientId,domaineId);
+		return demandeService.addDemande(demande,clientId,domaineId);
 	}
 	
 	/**
 	 * Modifier une demande
 	 * @param demande
 	 * @param id
+	 * @throws NotFoundException 
 	 */
 	@RequestMapping(method=RequestMethod.PUT, value="/demandes/{id}")
-	public void updateDemande(@RequestBody Demande demande,@PathVariable("id") Long id) {
-		demandeService.updateDemande(id,demande);
+	public Demande updateDemande(@RequestBody Demande demande,@PathVariable("id") Long id) throws NotFoundException {
+		return demandeService.updateDemande(id,demande);
 	}
 	
 

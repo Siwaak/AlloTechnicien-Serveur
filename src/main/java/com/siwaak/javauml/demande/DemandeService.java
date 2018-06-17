@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.siwaak.javauml.domaine.Domaine;
 import com.siwaak.javauml.domaine.DomaineRepository;
+
+import javassist.NotFoundException;
+
 import com.siwaak.javauml.client.Client;
 import com.siwaak.javauml.client.ClientRepository;
 
@@ -30,26 +33,43 @@ public class DemandeService {
 		return demandes;
 	}
 	
-	public Demande getDemande(Long id) {
+	public Demande getDemande(Long id) throws NotFoundException {
 		//return techniciens.stream().filter(t -> t.getId().equals(id)).findFirst().get();
-		return demandeRepository.findById(id).orElse(null);
+		Demande demande = demandeRepository.findById(id).orElse(null);
+		if(demande == null)
+			throw new NotFoundException("La demande d'id: " + id + " n'existe pas !");
+		
+		return demande;
 		
 	}
 
-	public void addDemande(Demande demande, Long clientId, Long domaineId) {
+	public Demande addDemande(Demande demande, Long clientId, Long domaineId) throws NotFoundException {
 		//techniciens.add(topic);
 		Domaine domaine = domaineRepository.findById(domaineId).orElse(null);
 		Client client = clientRepository.findById(clientId).orElse(null);
+		if (client == null ) {
+				throw new NotFoundException("Le client d'id: " + clientId + " n'existe pas !");
+		}
 		
+		if (domaine == null ) {
+				throw new NotFoundException("Le domaine d'id: " + domaineId + " n'existe pas !");
+		}
 		demande.setClient(client);
 		demande.setDomaine(domaine);
-		demandeRepository.save(demande);
+		return demandeRepository.save(demande);
+		
+
 		
 	}
 
-	public void updateDemande(Long id, Demande demande) {
+	public Demande updateDemande(Long id, Demande demande) throws NotFoundException {
 		
-		demandeRepository.save(demande);		
+		if(demandeRepository.existsById(id)) {
+			demande.setId(id);
+			 return demandeRepository.save(demande);
+		}
+		
+		throw new NotFoundException("La demande d'id: " + id + " n'existe pas !");
 	}
 
 	public void deleteDemande(Long id) {
@@ -57,13 +77,17 @@ public class DemandeService {
 	}
 
 
-	public Domaine getDomaineDemande(Long id) {
+	public Domaine getDomaineDemande(Long id) throws NotFoundException {
 		Demande demande = demandeRepository.findById(id).orElse(null);
+		if(demande == null)
+			throw new NotFoundException("La demande d'id: " + id + " n'existe pas !");
 		return demande.getDomaine();
 	}
 
-	public Client getClientDemande(Long id) {
+	public Client getClientDemande(Long id) throws NotFoundException {
 		Demande demande = demandeRepository.findById(id).orElse(null);
+		if(demande == null)
+			throw new NotFoundException("La demande d'id: " + id + " n'existe pas !");
 		return demande.getClient();
 	}
 

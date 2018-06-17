@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.siwaak.javauml.exceptions.ExceptionHandlerClass;
 
+import javassist.NotFoundException;
+
 
 @RestController
 public class DomaineController extends ExceptionHandlerClass{
@@ -25,19 +27,19 @@ public class DomaineController extends ExceptionHandlerClass{
 	}
 	
 	@RequestMapping("/domaines/{id}")
-	public Domaine getDomaine(@PathVariable("id") Long id) {
+	public Domaine getDomaine(@PathVariable("id") Long id) throws NotFoundException {
 		return domaineService.getDomaine(id);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/domaines")
-	public void addDomaine(@RequestBody Domaine domaine) {
-		domaineService.addDomaine(domaine);
+	public Domaine addDomaine(@RequestBody Domaine domaine) {
+		return domaineService.addDomaine(domaine);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/domaines/{id}")
-	public void updateDomaine(@RequestBody Domaine domaine,@PathVariable("id") Long id) {
-		domaine.setId(id);
-		domaineService.updateDomaine(id,domaine);
+	public Domaine updateDomaine(@RequestBody Domaine domaine,@PathVariable("id") Long id) throws NotFoundException {
+		
+		return domaineService.updateDomaine(id,domaine);
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE, value="/domaines/{id}")
@@ -49,10 +51,11 @@ public class DomaineController extends ExceptionHandlerClass{
 	 * Ajouter un technicien à un domaine
 	 * @param technicienId
 	 * @param domaineId
+	 * @throws NotFoundException 
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/domaines/{domaineId}/techniciens/{technicienId}")
-	public void ajouterTechnicien(@PathVariable("technicienId") Long technicienId,@PathVariable("domaineId") Long domaineId) {
-		domaineService.ajouterTechnicien(technicienId,domaineId);
+	public Domaine ajouterTechnicien(@PathVariable("technicienId") Long technicienId,@PathVariable("domaineId") Long domaineId) throws NotFoundException {
+		return domaineService.ajouterTechnicien(technicienId,domaineId);
 	}
 }
 

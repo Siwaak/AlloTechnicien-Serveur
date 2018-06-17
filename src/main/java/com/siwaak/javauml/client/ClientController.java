@@ -44,26 +44,32 @@ public class ClientController  extends ExceptionHandlerClass{
 	/**
 	 * Créer le client associé à l'client dont l'id est passé en arguement.
 	 * Le donné envoyés à travers la requète seront utilisées pour créer l'objet client
+	 * 
+	 * Une erreur 404 sera renvoyée si l'utilisateur n'existe pas
 	 * @param client
 	 * @param clientId
 	 * @throws NotFoundException 
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/utilisateurs/{utilisateurId}/ajouterClient")
-	public void addClient(@RequestBody Client client,@PathVariable("utilisateurId") Long utilisateurId) throws NotFoundException {
-		clientService.addClient(client,utilisateurId);
+	public Client addClient(@RequestBody Client client,@PathVariable("utilisateurId") Long utilisateurId) throws NotFoundException {
+		return clientService.addClient(client,utilisateurId);
 	}
 	
 	
 	/**
 	 * Mise à jour du client dont l'id est passé en argument
 	 * Le donné envoyés à travers la requète seront utilisées pour créer l'objet client
+	 * 
+	 * 
 	 * @param client
 	 * @param id
+	 * @throws Exception  Une erreur 404 sera renvoyée si le client n'existe pas
 	 */
 	@RequestMapping(method=RequestMethod.PUT, value="/clients/{id}")
-	public void updateClient(@RequestBody Client client,@PathVariable("id") Long id) {
-		client.setId(id);
-		clientService.updateClient(client);
+	public Client updateClient(@RequestBody Client client,@PathVariable("id") Long id) throws Exception {
+		
+		//client.setId(id);
+		return clientService.updateClient(id,client);
 	}
 	
 	/**

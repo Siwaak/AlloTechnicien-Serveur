@@ -1,10 +1,12 @@
 package com.siwaak.javauml.utilisateur;
 
 import java.util.ArrayList;
+import javassist.NotFoundException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class UtilisateurService {
@@ -27,24 +29,16 @@ public class UtilisateurService {
 		
 	}
 
-	public void addUtilisateur(Utilisateur utilisateur) {
+	public Utilisateur addUtilisateur(Utilisateur utilisateur) {
 		//techniciens.add(topic);
 		
-		utilisateurRepository.save(utilisateur);
+		 return utilisateurRepository.save(utilisateur);
 		
 	}
 
-	public void updateUtilisateur(long id, Utilisateur utilisateur) {
-		/*for(int i = 0; i < techniciens.size(); i++) {
-			Client topic2 = techniciens.get(i);
-			if(topic2.getId().equals(id)) {
-				techniciens.set(i,topic);
-				return;
-				
-			}
-		}*/
+	public Utilisateur updateUtilisateur(long id, Utilisateur utilisateur) {
 		
-		utilisateurRepository.save(utilisateur);
+		return utilisateurRepository.save(utilisateur);
 		
 	}
 
@@ -55,10 +49,20 @@ public class UtilisateurService {
 		
 	}
 
-	public void ajouter(Utilisateur user) {
+	public Utilisateur ajouter(Utilisateur user) {
 		// TODO Auto-generated method stub
 		
-		utilisateurRepository.save(user);
+		return utilisateurRepository.save(user);
 		
+	}
+
+	public Long getId(String email) throws NotFoundException {
+		Utilisateur utilisateur =  utilisateurRepository.findByEmail(email);
+		
+		if(utilisateur == null ) {
+			throw new NotFoundException("L'utilisateur d'email: "+ email + " n'existe pas !");
+		}
+		
+		return utilisateur.getId();
 	}
 }

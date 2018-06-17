@@ -43,7 +43,7 @@ public class ClientService {
 		
 	}
 
-	public void addClient(Client client,Long utilisateurId) throws NotFoundException {
+	public Client addClient(Client client,Long utilisateurId) throws NotFoundException {
 		//techniciens.add(topic);
 		Utilisateur utilisateur = utilisateurRepository.findById(utilisateurId).orElse(null);
 		
@@ -54,14 +54,20 @@ public class ClientService {
 		}
 		
 		client.setUtilisateur(utilisateur);
-		clientRepository.save(client);
+		return clientRepository.save(client);
 		
 	}
 
-	public void updateClient(Client client) {
+	public Client updateClient(Long id, Client client) throws Exception {
+		if (clientRepository.existsById(id)) {
+			client.setId(id);
+			return clientRepository.save(client);
+		}
 		
-		clientRepository.save(client);
-		
+		else {
+			throw new NotFoundException("Le client d'id :" + id + " n'existe pas");
+		}
+
 	}
 
 	public void deleteClient(Long id) {

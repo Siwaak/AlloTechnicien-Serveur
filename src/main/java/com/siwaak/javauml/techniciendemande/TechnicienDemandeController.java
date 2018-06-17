@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.siwaak.javauml.exceptions.ExceptionHandlerClass;
 
+import javassist.NotFoundException;
+
 
 
 @RestController
@@ -25,10 +27,11 @@ public class TechnicienDemandeController extends ExceptionHandlerClass{
 	 * Ajouter un technicien à une demande comme candidat
 	 * @param technicienId
 	 * @param demandeId
+	 * @throws NotFoundException 
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="ajoutertechniciendemande/{technicienId}/{demandeId}")
-	public void ajouterTechnicienDemande(@PathVariable("technicienId") Long technicienId,@PathVariable("demandeId") Long demandeId) {
-		technicienDemandeService.ajouterTechnicienDemande(technicienId, demandeId);
+	public TechnicienDemande ajouterTechnicienDemande(@PathVariable("technicienId") Long technicienId,@PathVariable("demandeId") Long demandeId) throws NotFoundException {
+		return technicienDemandeService.ajouterTechnicienDemande(technicienId, demandeId);
 	}
 
 	/***
@@ -46,30 +49,33 @@ public class TechnicienDemandeController extends ExceptionHandlerClass{
 	 * @param technicienId
 	 * @param demandeId
 	 * @param note
+	 * @throws NotFoundException 
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="notertechniciendemande/{technicienId}/{demandeId}/{note}")
-	public void noterTechnicien(@PathVariable("technicienId") Long technicienId,@PathVariable("demandeId") Long demandeId,@PathVariable("note") float note) {
+	public TechnicienDemande noterTechnicien(@PathVariable("technicienId") Long technicienId,@PathVariable("demandeId") Long demandeId,@PathVariable("note") float note) throws NotFoundException {
 
-		technicienDemandeService.noterTechnicien(technicienId, demandeId, note);
+		return technicienDemandeService.noterTechnicien(technicienId, demandeId, note);
 	}
 	
 	/***
 	 * Marquer un technicien comme choisi pour une demande
 	 * @param technicienId
 	 * @param demandeId
+	 * @throws NotFoundException 
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="choisirtechniciendemande/{technicienId}/{demandeId}")
-	public void choisirTechnicien(@PathVariable("technicienId") Long technicienId,@PathVariable("demandeId") Long demandeId) {
-		technicienDemandeService.choisirTechnicien(technicienId, demandeId);
+	public TechnicienDemande choisirTechnicien(@PathVariable("technicienId") Long technicienId,@PathVariable("demandeId") Long demandeId) throws NotFoundException {
+		return technicienDemandeService.choisirTechnicien(technicienId, demandeId);
 	}
 	
 	/**
 	 * Liste des demandes auquelles a postulé un technicien
 	 * @param technicienId
 	 * @return
+	 * @throws NotFoundException 
 	 */
 	@RequestMapping(value="techniciens/{technicienId}/demandes")
-	public Set<TechnicienDemande> demandesDunTechnicien(@PathVariable("technicienId") Long technicienId){
+	public Set<TechnicienDemande> demandesDunTechnicien(@PathVariable("technicienId") Long technicienId) throws NotFoundException{
 		return technicienDemandeService.demandesDunTechnicien(technicienId);
 	}
 	
@@ -78,9 +84,10 @@ public class TechnicienDemandeController extends ExceptionHandlerClass{
 	 * Liste des techniciens qui ont postulés pour une demande
 	 * @param technicienId
 	 * @return
+	 * @throws NotFoundException 
 	 */
 	@RequestMapping(value="/demandes/{demandeId}/techniciens")
-	public Set<TechnicienDemande> techniciensPourDemandes(@PathVariable("demandeId") Long demandeId){
+	public Set<TechnicienDemande> techniciensPourDemandes(@PathVariable("demandeId") Long demandeId) throws NotFoundException{
 		return technicienDemandeService.techniciensPourDemandes(demandeId);
 	}
 	

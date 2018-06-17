@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.siwaak.javauml.technicien.Technicien;
 import com.siwaak.javauml.technicien.TechnicienRepository;
 
+import javassist.NotFoundException;
+
 @Service
 public class DomaineService {
 	
@@ -26,23 +28,31 @@ public class DomaineService {
 		return domaines;
 	}
 	
-	public Domaine getDomaine(Long id) {
+	public Domaine getDomaine(Long id) throws NotFoundException {
 		//return techniciens.stream().filter(t -> t.getId().equals(id)).findFirst().get();
-		return domaineRepository.findById(id).orElse(null);
+		Domaine domaine = domaineRepository.findById(id).orElse(null);
+		if (domaine == null ) {
+			throw new NotFoundException("Le domaine d'id: " + id + " n'existe pas !");
+		}
+		
+		return domaine;
 		
 	}
 
-	public void addDomaine(Domaine domaine) {
+	public Domaine addDomaine(Domaine domaine) {
 		//techniciens.add(topic);
 		
-		domaineRepository.save(domaine);
+		return domaineRepository.save(domaine);
 		
 	}
 
-	public void updateDomaine(Long id, Domaine domaine) {
-
+	public Domaine updateDomaine(Long id, Domaine domaine) throws NotFoundException {
+		if (!domaineRepository.existsById(id)) {
+				throw new NotFoundException("Le domaine d'id: " + id + " n'existe pas !");
+		}
 		
-		domaineRepository.save(domaine);
+		domaine.setId(id);
+		return domaineRepository.save(domaine);
 		
 	}
 
@@ -53,10 +63,16 @@ public class DomaineService {
 		
 	}
 	
-	public void ajouterTechnicien(Long technicienId, Long domaineId) {
+	public Domaine ajouterTechnicien(Long technicienId, Long domaineId) throws NotFoundException {
 		Domaine domaine = domaineRepository.findById(domaineId).orElse(null);
+		if (domaine == null ) {
+			throw new NotFoundException("Le domaine d'id: " + domaineId + " n'existe pas !");
+		}
 		Technicien technicien = technicienRepository.findById(technicienId).orElse(null);
+		if (technicien == null ) {
+			throw new NotFoundException("Le technicien d'id: " + technicienId + " n'existe pas !");
+		}
 		domaine.ajouterTechnicien(technicien);
-		domaineRepository.save(domaine);
+		return domaineRepository.save(domaine);
 	}
 }

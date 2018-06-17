@@ -22,6 +22,9 @@ public class Client {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;	
 	
+	/**
+	 * Adresse du client. Elle sera utilisée si une adresse n'est pas fournie pour une demande
+	 */
 	private String adresse;
 	
 	/**

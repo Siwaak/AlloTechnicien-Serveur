@@ -12,6 +12,8 @@ import com.siwaak.javauml.demande.DemandeRepository;
 import com.siwaak.javauml.technicien.Technicien;
 import com.siwaak.javauml.technicien.TechnicienRepository;
 
+import javassist.NotFoundException;
+
 @Service
 public class TechnicienDemandeService {
 	
@@ -24,22 +26,20 @@ public class TechnicienDemandeService {
 	private DemandeRepository demandeRepository;
 	
 
-	public void ajouterTechnicienDemande(Long technicienId,Long demandeId) {
+	public TechnicienDemande ajouterTechnicienDemande(Long technicienId,Long demandeId) throws NotFoundException {
 		
 		Technicien technicien = technicienRepository.findById(technicienId).orElse(null);
+		if (technicien == null ) {
+			throw new NotFoundException("Le technicien d'id: " + technicienId + " n'existe pas !");
+		}
 		Demande demande = demandeRepository.findById(demandeId).orElse(null);
+		if (demande == null ) {
+			throw new NotFoundException("La demande d'id: " + demandeId + " n'existe pas !");
+		}
 		
 		TechnicienDemande technicienDemande = new TechnicienDemande(demande,technicien);
-		/*technicien.ajouterTechnicienDemande(technicienDemande);
 		
-		technicien.ajouterTechnicienDemande(technicienDemande);
-		
-		demande.ajouterTechnicienDemande(technicienDemande);
-		
-		demandeRepository.save(demande);
-		technicienRepository.save(technicien);*/
-		
-		technicienDemandeRepository.save(technicienDemande);
+		return technicienDemandeRepository.save(technicienDemande);
 	}
 
 	public void deleteTechnicienDemande(Long technicienId,Long demandeId) {
@@ -48,28 +48,40 @@ public class TechnicienDemandeService {
 		
 	}
 	
-	public void noterTechnicien(Long technicienId, long demandeId, float note) {
+	public TechnicienDemande noterTechnicien(Long technicienId, long demandeId, float note) throws NotFoundException {
 		TechnicienDemande technicienDemande = technicienDemandeRepository.findByTechnicienIdAndDemandeId(technicienId, demandeId);
+		if (technicienDemande == null ) {
+			throw new NotFoundException("Le technicien d'id: " + technicienId +" n'a pas postulé pour la demande d'id " + demandeId);
+		}
+		
 		technicienDemande.setNote(note);
 		
-		technicienDemandeRepository.save(technicienDemande);
+		return technicienDemandeRepository.save(technicienDemande);
 	}
 	
-	public void choisirTechnicien(Long technicienId, long demandeId) {
+	public TechnicienDemande choisirTechnicien(Long technicienId, long demandeId) throws NotFoundException {
 		
 		TechnicienDemande technicienDemande = technicienDemandeRepository.findByTechnicienIdAndDemandeId(technicienId, demandeId);
+		if (technicienDemande == null ) {
+			throw new NotFoundException("Le technicien d'id: " + technicienId +" n'a pas postulé pour la demande d'id " + demandeId);
+		}
 		technicienDemande.setChoisi(true);
 		
-		technicienDemandeRepository.save(technicienDemande);
+		return technicienDemandeRepository.save(technicienDemande);
 	}
 
-	public Set<TechnicienDemande> demandesDunTechnicien(Long technicienId) {
-		// TODO Auto-generated method stub
+	public Set<TechnicienDemande> demandesDunTechnicien(Long technicienId) throws NotFoundException {
+		if (!technicienRepository.existsById(technicienId)) {
+			throw new NotFoundException("Le technicien d'id: " + technicienId + " n'existe pas !");
+		}
+		
 		return technicienDemandeRepository.findAllByTechnicienId(technicienId);
 	}
 
-	public Set<TechnicienDemande> techniciensPourDemandes(Long demandeId) {
-		// TODO Auto-generated method stub
+	public Set<TechnicienDemande> techniciensPourDemandes(Long demandeId) throws NotFoundException {
+		if(!demandeRepository.existsById(demandeId)) {
+			throw new NotFoundException("La demande d'id: "+ demandeId + " n'existe pas !");
+		}
 		return technicienDemandeRepository.findAllByDemandeId(demandeId);
 	}
 
